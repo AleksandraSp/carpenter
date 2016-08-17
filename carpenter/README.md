@@ -21,11 +21,15 @@ $ composer create-project -sdev zendframework/skeleton-application path/to/insta
 Once installed, you can test it out immediately using PHP's built-in web server:
 
 ```bash
+$ cd path/to/install
 $ php -S 0.0.0.0:8080 -t public/ public/index.php
+# OR use the composer alias:
+$ composer serve
 ```
 
 This will start the cli-server on port 8080, and bind it to all network
-interfaces.
+interfaces. You can then visit the site at http://localhost:8080/
+- which will bring up Zend Framework welcome page.
 
 **Note:** The built-in CLI server is *for development only*.
 
@@ -36,7 +40,7 @@ by default, and provides three aliases for consuming the script it ships with:
 
 ```bash
 $ composer development-enable  # enable development mode
-$ composer development-disable # enable development mode
+$ composer development-disable # disable development mode
 $ composer development-status  # whether or not development mode is enabled
 ```
 
@@ -45,6 +49,11 @@ You may provide development-only modules and bootstrap-level configuration in
 configuration in `config/autoload/development.local.php.dist`. Enabling
 development mode will copy these files to versions removing the `.dist` suffix,
 while disabling development mode will remove those copies.
+
+Development mode is automatically enabled as part of the skeleton installation process. 
+After making changes to one of the above-mentioned `.dist` configuration files you will
+either need to disable then enable development mode for the changes to take effect,
+or manually make matching updates to the `.dist`-less copies of those files.
 
 ## Running Unit Tests
 
@@ -71,7 +80,7 @@ control. (If you want to make the modifications permanent, edit the
 
 ## Using Vagrant
 
-This skeleton includes a `Vagrantfile` based on ubuntu 14.04, and using the
+This skeleton includes a `Vagrantfile` based on ubuntu 16.04, and using the
 ondrej/php PPA to provide PHP 7.0. Start it up using:
 
 ```bash
@@ -93,6 +102,16 @@ $ vagrant ssh -c 'composer update'
 
 While running, Vagrant maps your host port 8080 to port 80 on the virtual
 machine; you can visit the site at http://localhost:8080/
+
+> ### Vagrant and VirtualBox
+>
+> The vagrant image is based on ubuntu/xenial64. If you are using VirtualBox as
+> a provider, you will need:
+>
+> - Vagrant 1.8.5 or later
+> - VirtualBox 5.0.26 or later
+
+For vagrant documentation, please refer to [vagrantup.com](https://www.vagrantup.com/)
 
 ## Using docker-compose
 
@@ -122,9 +141,9 @@ project and you should be ready to go! It should look something like below:
 
 ```apache
 <VirtualHost *:80>
-    ServerName zf2-app.localhost
-    DocumentRoot /path/to/zf2-app/public
-    <Directory /path/to/zf2-app/public>
+    ServerName zfapp.localhost
+    DocumentRoot /path/to/zfapp/public
+    <Directory /path/to/zfapp/public>
         DirectoryIndex index.php
         AllowOverride All
         Order allow,deny
@@ -150,14 +169,14 @@ http {
 ```
 
 
-Create a virtual host configuration file for your project under `/path/to/nginx/sites-enabled/zf2-app.localhost.conf`
+Create a virtual host configuration file for your project under `/path/to/nginx/sites-enabled/zfapp.localhost.conf`
 it should look something like below:
 
 ```nginx
 server {
     listen       80;
-    server_name  zf2-app.localhost;
-    root         /path/to/zf2-app/public;
+    server_name  zfapp.localhost;
+    root         /path/to/zfapp/public;
 
     location / {
         index index.php;
@@ -167,10 +186,38 @@ server {
     location @php {
         # Pass the PHP requests to FastCGI server (php-fpm) on 127.0.0.1:9000
         fastcgi_pass   127.0.0.1:9000;
-        fastcgi_param  SCRIPT_FILENAME /path/to/zf2-app/public/index.php;
+        fastcgi_param  SCRIPT_FILENAME /path/to/zfapp/public/index.php;
         include fastcgi_params;
     }
 }
 ```
 
 Restart the nginx, now you should be ready to go!
+
+## QA Tools
+
+The skeleton does not come with any QA tooling by default, but does ship with
+configuration for each of:
+
+- [phpcs](https://github.com/squizlabs/php_codesniffer)
+- [phpunit](https://phpunit.de)
+
+Additionally, it comes with some basic tests for the shipped
+`Application\Controller\IndexController`.
+
+If you want to add these QA tools, execute the following:
+
+```bash
+$ composer require --dev phpunit/phpunit squizlabs/php_codesniffer zendframework/zend-test
+```
+
+We provide aliases for each of these tools in the Composer configuration:
+
+```bash
+# Run CS checks:
+$ composer cs-check
+# Fix CS errors:
+$ composer cs-fix
+# Run PHPUnit tests:
+$ composer test
+```
