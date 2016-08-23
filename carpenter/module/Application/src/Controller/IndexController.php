@@ -16,4 +16,21 @@ class IndexController extends AbstractActionController
     {
         return new ViewModel();
     }
+    
+    public function calculateAction(){
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            $params = $request->getPost();
+        }
+        $view = new ViewModel([
+            'frame' => $params['frame'],
+            'door' => $params['door'],
+            'w' => $params['width'],
+            'h' => $params['height'],
+            'd' => $params['depth'],
+            'mat' => $params['material_width'],
+            'shelves' => $params['shelves'],
+        ]);
+        return $view;
+    }
 }

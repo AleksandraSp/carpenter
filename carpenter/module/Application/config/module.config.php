@@ -34,6 +34,16 @@ return [
                     ],
                 ],
             ],
+            'calculate' =>  [
+                'type'  => Segment::class,
+                'options' => [
+                    'route' => '/calculate',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action' => 'calculate'
+                    ]
+                ]
+            ]
         ],
     ],
     'controllers' => [

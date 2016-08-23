@@ -1,8 +1,81 @@
 <div class="jumbotron">
     <h1>Welcome to <span class="zf-green">Carpenter</span></h1>
 </div>
-<div class="row">
-    <div class="col-md-4">
-        Make your project!
+
+<form action="/calculate" method="POST">
+    
+    <div class="col-md-12">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
+            <input type="submit" class="btn btn-default" value="Show"/>
+        </div>
     </div>
-</div>
+    
+    <div class="row jumbotron">
+        <div class="col-md-12">
+            Frame
+        </div>
+        <div class="col-md-6">
+            <input type="radio" name="frame" value="top" checked/>
+            <img src="img/top.png"/>
+        </div>
+        <div class="col-md-6">
+            <input type="radio" name="frame"value="side"/>
+            <img src="img/side.png"/>
+        </div>
+    </div>
+
+    <div class="row jumbotron">
+        <div class="col-md-12">
+            Frame dimensions
+        </div>
+        <div class="col-md-4">
+            Width:
+            <input type="number" name="width"/>
+        </div>
+        <div class="col-md-4">
+            Height:
+            <input type="number" name="height"/>
+        </div>
+        <div class="col-md-4">
+            Depth:
+            <input type="number" name="depth"/>
+        </div>
+        <div class="col-md-12">
+            Material width:
+            <input type="number" name="material_width"/>
+        </div>
+    </div>
+
+    <div class="row jumbotron">
+        <div class="col-md-12">
+            Door
+        </div>
+        <div class="col-md-6">
+            <input type="radio" name="door" value="inside" checked/>
+            <img src="img/door-inside.png"/>
+        </div>
+        <div class="col-md-6">
+            <input type="radio" name="door"value="outside"/>
+            <img src="img/door-outside.png"/>
+        </div>
+    </div>
+
+    <div class="row jumbotron">
+        <div class="col-md-12">
+            Shelves
+        </div>
+        <div>
+            <textarea class="col-md-12" rows="10" name="shelves">{}</textarea>
+        </div>
+    </div>
+    
+    <div class="col-md-12">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
+            <input type="submit" class="btn btn-default" value="Show"/>
+        </div>
+    </div>
+</form>
